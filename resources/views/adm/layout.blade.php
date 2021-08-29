@@ -13,7 +13,7 @@
   <header>
     <section>
       <picture>
-        <img src="{{asset('img/logo/1better.png')}}" alt="Logo" />
+        <a href="/"><img src="{{asset('img/logo/1better.png')}}" alt="Logo" /></a>
       </picture>
     </section>
   </header>
