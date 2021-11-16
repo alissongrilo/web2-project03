@@ -18,7 +18,7 @@ class CreateReceitasTable extends Migration
             $table->foreignId('user_id')->constrained()
             ->onDelete('cascade')->onUpdate('cascade');
             $table->string('ingrediente');
-            $table->string('modo-de-preparo');
+            $table->string('modo_de_preparo');
             $table->timestamps();
         });
     }

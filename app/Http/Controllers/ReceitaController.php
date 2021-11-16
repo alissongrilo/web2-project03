@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Receita;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ReceitaController extends Controller
@@ -14,7 +15,8 @@ class ReceitaController extends Controller
      */
     public function index()
     {
-        return view("adm/receita");
+      $receitas = Receita::all();
+      return view("adm/receita", compact('receitas'));
     }
 
     /**
@@ -24,7 +26,8 @@ class ReceitaController extends Controller
      */
     public function create()
     {
-        //
+      $users = User::all();
+      return view("adm/receita/create", compact('users'));
     }
 
     /**
@@ -35,9 +38,21 @@ class ReceitaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      $validated = $request->validate([
+        'user_id' => 'required|integer',
+        'ingrediente' => 'required|max:255',
+        'modo_de_preparo' => 'required|max:255',
+      ]);
+      if ($validated) {
+        $receita = new Receita();
+        $receita->user_id = $request->get('user_id');
+        $receita->ingrediente = $request->get('ingrediente');
+        $receita->modo_de_preparo = $request->get('modo_de_preparo');
+        $receita->save();
+        return redirect("receita");
+      }
     }
-
+  
     /**
      * Display the specified resource.
      *
@@ -57,7 +72,8 @@ class ReceitaController extends Controller
      */
     public function edit(Receita $receita)
     {
-        //
+      $users = User::all();
+      return view("adm/receita/edit", compact('receita', 'users'));
     }
 
     /**
@@ -69,7 +85,18 @@ class ReceitaController extends Controller
      */
     public function update(Request $request, Receita $receita)
     {
-        //
+      $validated = $request->validate([
+        'user_id' => 'required|integer',
+        'ingrediente' => 'required|max:255',
+        'modo_de_preparo' => 'required|max:255',
+      ]);
+      if ($validated) {
+        $receita->user_id = $request->get('user_id');
+        $receita->ingrediente = $request->get('ingrediente');
+        $receita->modo_de_preparo = $request->get('modo_de_preparo');
+        $receita->save();
+        return redirect("receita");
+      }
     }
 
     /**
@@ -80,6 +107,7 @@ class ReceitaController extends Controller
      */
     public function destroy(Receita $receita)
     {
-        //
+      $receita->delete();
+      return redirect("receita");
     }
 }
